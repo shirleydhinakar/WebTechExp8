@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Working with Angular JS Directives</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    </head>
+    <body>
+        <div id="q1" ng-app="q1" ng-controller="Forms">
+            <h1>Question 1</h1>
+            <form>
+                <fieldset>
+                    <legend>Comment Box using Controller:</legend>
+                    Post your Comment:<br><br>
+                    <textarea ng-model='txtcomment' placeholder='Your Comment'></textarea><br><br>
+                    <button ng-click="btn_add()">Post Comment</button>
+                    <h4>Comments</h4>
+                    <ul>
+                        <li ng-repeat='comnt in comment'> {{ comnt }} <button ng-click='remItem($index)'>Remove</button></li>
+                    </ul>
+                </fieldset>
+            </form>
+        </div>
+        <div id ="q2" ng-app="q2" ng-controller="Cal">
+            <h1>Question 2</h1>
+            <fieldset>
+                <legend>Simple Calculator:</legend>
+                Number 1: <input type="number" ng-model="a"><br><br>
+                Number 2: <input type="number" ng-model="b">
+                <p><select ng-model="operator">
+                    <option>+</option>
+                    <option>*</option>
+                    <option>-</option>
+                    <option>/</option>
+                </select></p>
+                <p> Result: {{ result() }}</p>
+            </fieldset>
+        </div>
+        <div id="q3" ng-app="q3" ng-controller="List">
+            <h1>Question 3</h1>
+            <form>
+                <fieldset>
+                    <legend>To-Do List:</legend>
+                    Add Tasks:<br><br>
+                    <input ng-model='task' placeholder='Enter Task...'><br><br>
+                    <button ng-click="btn_add()">Add</button>
+                    <h4>To-Do List:</h4>
+                    <ul>
+                        <li ng-repeat='task in taskList'> {{ task }} </li>
+                    </ul>
+                </fieldset>
+            </form>
+        </div>
+        <script type='text/javascript'>
+            var app1 = angular.module("q1",[]); 
+            app1.controller("Forms",function($scope){
+                $scope.comment = []; 
+                $scope.btn_add = function(){
+                    $scope.comment.push($scope.txtcomment);
+                    $scope.txtcomment="";
+                };
+                $scope.remItem=function($index){
+                    $scope.comment.splice($index,1);
+                };
+            });
+            var app2 = angular.module('q2', [])
+            app2.controller('Cal', function($scope) {
+                $scope.result = function() {
+                    if ($scope.operator == '+') {
+                        return $scope.a + $scope.b;
+                    }
+                    if ($scope.operator == '-') {
+                        return $scope.a - $scope.b;
+                    }
+                    if ($scope.operator == '*') {
+                        return $scope.a * $scope.b;
+                    }
+                    if ($scope.operator == '/') {
+                        return $scope.a / $scope.b;
+                    }
+                };
+            });
+            angular.bootstrap(document.getElementById("q2"), ['q2']);
+            var app3 = angular.module("q3",[]); 
+            app3.controller("List",function($scope){
+                $scope.taskList = []; 
+                $scope.btn_add = function(){
+                    $scope.taskList.push($scope.task);
+                    $scope.task="";
+                };
+            });
+            angular.bootstrap(document.getElementById("q3"), ['q3']);
+        </script>
+    </body>
+</html>
